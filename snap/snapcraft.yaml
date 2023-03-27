@@ -37,11 +37,10 @@ parts:
       - cmake
       - valac
       - blueprint-compiler
-      - python3-pip
+      - python3-gi
     override-pull: |
       craftctl default
       sed "s/version: '1.2.0'/version: '>=1.2.0'/" -i src/meson.build
-      python3 -m pip install PyGObject
 apps:
   paper:
     command: usr/bin/paper
