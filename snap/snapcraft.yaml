@@ -15,7 +15,7 @@ grade: devel # must be 'stable' to release into candidate/stable channels
 confinement: devmode # use 'strict' once you have the right plugs and slots
 compression: lzo
 contact: soumyadeepghosh2004@zohomail.in
-architecture:
+architectures:
   - build-on: amd64
 environment:
   # WORKAROUND: Add python modules in Snap to search path
@@ -45,11 +45,8 @@ parts:
       sed "s|labelled-by: icon;|labelled_by: icon;|" -i src/ui/window/notebooks_bar/icon.blp
       sed 's|labelled-by: label;|labelled_by: label;|' -i src/ui/window/sidebar/note_card.blp
       sed 's|described-by: descrption_box;|described_by: descrption_box;|' -i src/ui/window/sidebar/note_card.blp
-    override-prime: |
-      craftctl default
-      sed 's|Icon=io.posidon.Paper|Icon=usr/share/icons/hicolor/scalable/apps/io.posidon.Paper.svg|' -i usr/share/applications/io.posidon.Paper-editor.desktop
-      sed 's|io.posidon.Paper --file %u|paper --file %u|' -i usr/share/applications/io.posidon.Paper-editor.desktop
-      sed 's|Exec=io.posidon.Paper|Exec=paper|' -i usr/share/applications/io.posidon.Paper.desktop
+      sed 's|Icon=@app_id@|Icon=usr/share/icons/hicolor/scalable/apps/io.posidon.Paper.svg|' -i data/app.desktop.in
+      sed 's|Icon=@app_id@|Icon=usr/share/icons/hicolor/scalable/apps/io.posidon.Paper.svg|' -i data/editor.desktop.in
   cleanup:
     after:  # Make this part run last; list all your other parts here
       - paper
