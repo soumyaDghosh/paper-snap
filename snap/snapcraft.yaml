@@ -45,7 +45,7 @@ parts:
       sed 's|described-by: descrption_box;|described_by: descrption_box;|' -i src/ui/window/sidebar/note_card.blp
     override-prime: |
       craftctl default
-      sed 's|Icon=io.posidon.Paper|Icon=usr/share/icons/hicolor/scalable/apps/io.posidon.Paper|' -i usr/share/applications/io.posidon.Paper-editor.desktop
+      sed 's|Icon=io.posidon.Paper|Icon=usr/share/icons/hicolor/scalable/apps/io.posidon.Paper.svg|' -i usr/share/applications/io.posidon.Paper-editor.desktop
       sed 's|io.posidon.Paper --file %u|paper --file %u|' -i usr/share/applications/io.posidon.Paper-editor.desktop
       sed 's|Exec=io.posidon.Paper|Exec=paper|' -i usr/share/applications/io.posidon.Paper.desktop
   cleanup:
