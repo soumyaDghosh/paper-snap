@@ -18,23 +18,9 @@ contact: soumyadeepghosh2004@zohomail.in
 environment:
   # WORKAROUND: Add python modules in Snap to search path
   PYTHONPATH: ${SNAP}/lib/python3.10/site-packages:${SNAP}/usr/lib/python3/dist-packages
-package-repositories:
-  - type: apt
-    components: [main, multiverse, restricted, universe]
-    suites: [kinetic, kinetic-backports, kinetic-security, kinetic-updates]
-    key-id: F6ECB3762474EDA9D21B7022871920D1991BC93C
-    url: http://security.ubuntu.com/ubuntu
+
 parts:
-  pygobject:
-    plugin: python
-    source: https://gitlab.gnome.org/GNOME/pygobject.git
-    source-tag: 3.44.1
-    build-environment:
-      # WORKAROUND: The python plugin is broken with gnome extension
-      - PATH: ${CRAFT_PART_INSTALL}/bin:${PATH}
-      - PYTHONPATH: ""
   paper:
-    after: [pygobject]
     # See 'snapcraft plugins'
     plugin: meson
     source: https://gitlab.com/posidon_software/paper.git
@@ -48,12 +34,37 @@ parts:
       - cmake
       - valac
       - blueprint-compiler
+      - gobject-introspection
+      - libgirepository-1.0-1
     override-pull: |
       craftctl default
       sed "s/version: '1.2.0'/version: '>=1.2.0'/" -i src/meson.build
+      sed "s|labelled-by: notebook_title;|labelled_by: notebook_title;|" -i src/ui/window/window.blp
+      sed "s|labelled-by: icon;|labelled_by: icon;|" -i src/ui/window/notebooks_bar/icon.blp
+      sed 's|labelled-by: label;|labelled_by: label;|' -i src/ui/window/sidebar/note_card.blp
+      sed 's|described-by: descrption_box;|described_by: descrption_box;|' -i src/ui/window/sidebar/note_card.blp
+    override-prime: |
+      craftctl default
+      sed 's|Icon=io.posidon.Paper|Icon=usr/share/icons/hicolor/scalable/apps/io.posidon.Paper|' -i usr/share/applications/io.posidon.Paper-editor.desktop
+      sed 's|io.posidon.Paper --file %u|paper --file %u|' -i usr/share/applications/io.posidon.Paper-editor.desktop
+      sed 's|Exec=io.posidon.Paper|Exec=paper|' -i usr/share/applications/io.posidon.Paper.desktop
+  cleanup:
+    after:  # Make this part run last; list all your other parts here
+      - paper
+    plugin: nil
+    build-snaps:  # List all content-snaps and base snaps you're using here
+      - gnome-42-2204
+      - gnome-42-2204-sdk
+      - core22
+    override-prime: |
+      set -eux
+      for snap in "gnome-42-2204" "gnome-42-2204-sdk" "core22"; do
+      cd "/snap/$snap/current" && find . -type f,l -exec rm -f "$SNAPCRAFT_PRIME/{}" \;
+      done
+
 apps:
   paper:
-    command: usr/bin/paper
+    command: usr/bin/io.posidon.Paper
     common-id: io.posidon.Paper
     extensions: [gnome]
     desktop: usr/share/applications/io.posidon.Paper.desktop
