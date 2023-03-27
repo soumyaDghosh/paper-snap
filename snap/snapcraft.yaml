@@ -15,6 +15,8 @@ grade: devel # must be 'stable' to release into candidate/stable channels
 confinement: devmode # use 'strict' once you have the right plugs and slots
 compression: lzo
 contact: soumyadeepghosh2004@zohomail.in
+architecture:
+  - build-on: amd64
 environment:
   # WORKAROUND: Add python modules in Snap to search path
   PYTHONPATH: ${SNAP}/lib/python3.10/site-packages:${SNAP}/usr/lib/python3/dist-packages
