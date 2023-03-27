@@ -37,6 +37,7 @@ parts:
       - cmake
       - valac
       - blueprint-compiler
+      - python3-pip
     override-pull: |
       craftctl default
       sed "s/version: '1.2.0'/version: '>=1.2.0'/" -i src/meson.build
