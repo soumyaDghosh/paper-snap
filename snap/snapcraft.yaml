@@ -13,7 +13,7 @@ parts:
     # See 'snapcraft plugins'
     plugin: meson
     source: https://gitlab.com/posidon_software/paper.git
-    source-tag: $SNAPCRAFT_PROJECT_VERSION
+    source-tag: 22.11
     meson-parameters:
       - --prefix=/snap/paper/current/usr
     parse-info: [usr/share/metainfo/io.posidon.Paper.appdata.xml]
