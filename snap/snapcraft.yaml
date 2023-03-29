@@ -7,18 +7,14 @@ compression: lzo
 contact: soumyadeepghosh2004@zohomail.in
 architectures:
   # snapcraft builder builds for all archs when building, so, this is necessary to reduce the number of builds
-  - build-on: amd64 
+  - build-on: amd64
 parts:
   paper:
     # See 'snapcraft plugins'
     plugin: meson
     source: https://gitlab.com/posidon_software/paper.git
     source-tag: 22.11
-    meson-parameters:
-      - --prefix=/snap/paper/current/usr
     parse-info: [usr/share/metainfo/io.posidon.Paper.appdata.xml]
-    organize:
-      snap/paper/current/usr: usr
     build-packages:
       - blueprint-compiler
     override-pull: |
