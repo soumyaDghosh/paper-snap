@@ -5,10 +5,9 @@ grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict # use 'strict' once you have the right plugs and slots
 compression: lzo
 contact: soumyadeepghosh2004@zohomail.in
-environment:
-  # WORKAROUND: Add python modules in Snap to search path
-  PYTHONPATH: ${SNAP}/lib/python3.10/site-packages:${SNAP}/usr/lib/python3/dist-packages
-
+architectures:
+  # snapcraft builder builds for all archs when building, so, this is necessary to reduce the number of builds
+  - build-on: amd64 
 parts:
   paper:
     # See 'snapcraft plugins'
@@ -16,7 +15,7 @@ parts:
     source: https://gitlab.com/posidon_software/paper.git
     source-tag: $SNAPCRAFT_PROJECT_VERSION
     meson-parameters:
-      - --prefix=/usr
+      - --prefix=/snap/paper/current/usr
     parse-info: [usr/share/metainfo/io.posidon.Paper.appdata.xml]
     organize:
       snap/paper/current/usr: usr
@@ -57,7 +56,5 @@ apps:
     common-id: io.posidon.Paper
     extensions: [gnome]
     desktop: usr/share/applications/io.posidon.Paper.desktop
-    environment:
-      GTK_USE_PORTAL: '1'
     plugs:
       - home
