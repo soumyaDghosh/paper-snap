@@ -1,43 +1,26 @@
 name: paper # you probably want to 'snapcraft register <name>'
 adopt-info: paper
 base: core22 # the base snap is the execution environment for this snap
-version: '22.11' # just for humans, typically '1.2+git' or '1.3.2'
-summary: Single-line elevator pitch for your amazing snap # 79 char long summary
-description: |
-  This is my-snap's description. You have a paragraph or two to tell the
-  most important story about your snap. Keep it under 100 words though,
-  we live in tweetspace and your description wants to look good in the snap
-  store.
-#architectures:
-#  - build-on: amd64
-#    build-for: amd64
-grade: devel # must be 'stable' to release into candidate/stable channels
-confinement: devmode # use 'strict' once you have the right plugs and slots
+grade: stable # must be 'stable' to release into candidate/stable channels
+confinement: strict # use 'strict' once you have the right plugs and slots
 compression: lzo
 contact: soumyadeepghosh2004@zohomail.in
 architectures:
-  - build-on: amd64
-environment:
-  # WORKAROUND: Add python modules in Snap to search path
-  PYTHONPATH: ${SNAP}/lib/python3.10/site-packages:${SNAP}/usr/lib/python3/dist-packages
-
+  # snapcraft builder builds for all archs when building, so, this is necessary to reduce the number of builds
+  - build-on: amd64 
 parts:
   paper:
     # See 'snapcraft plugins'
     plugin: meson
     source: https://gitlab.com/posidon_software/paper.git
-    source-tag: $SNAPCRAFT_PROJECT_VERSION
+    source-tag: 22.11
     meson-parameters:
       - --prefix=/snap/paper/current/usr
-    parse-info: [usr/share/metainfo/io.posidon.Paper.metainfo.xml]
+    parse-info: [usr/share/metainfo/io.posidon.Paper.appdata.xml]
     organize:
       snap/paper/current/usr: usr
     build-packages:
-      - cmake
-      - valac
       - blueprint-compiler
-      - gobject-introspection
-      - libgirepository-1.0-1
     override-pull: |
       craftctl default
       sed "s/version: '1.2.0'/version: '>=1.2.0'/" -i src/meson.build
@@ -53,7 +36,6 @@ parts:
     plugin: nil
     build-snaps:  # List all content-snaps and base snaps you're using here
       - gnome-42-2204
-      - gnome-42-2204-sdk
       - core22
     override-prime: |
       set -eux
@@ -61,11 +43,18 @@ parts:
       cd "/snap/$snap/current" && find . -type f,l -exec rm -f "$SNAPCRAFT_PRIME/{}" \;
       done
 
+slots:
+  # for GtkApplication registration
+  paper:
+    interface: dbus
+    bus: session
+    name: io.posidon.Paper
+
 apps:
   paper:
     command: usr/bin/io.posidon.Paper
     common-id: io.posidon.Paper
     extensions: [gnome]
     desktop: usr/share/applications/io.posidon.Paper.desktop
-    environment:
-      GTK_USE_PORTAL: '1'
+    plugs:
+      - home
