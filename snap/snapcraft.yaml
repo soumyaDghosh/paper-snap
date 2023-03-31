@@ -6,6 +6,7 @@ grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict # use 'strict' once you have the right plugs and slots
 compression: lzo
 contact: soumyadeepghosh2004@zohomail.in
+summary: Take notes in Markdown
 architectures:
   # snapcraft builder builds for all archs when building, so, this is necessary to reduce the number of builds
   - build-on: amd64
