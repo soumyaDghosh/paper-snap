@@ -1,5 +1,4 @@
 name: paper # you probably want to 'snapcraft register <name>'
-adopt-info: paper
 version: '22.11'
 base: core22 # the base snap is the execution environment for this snap
 grade: stable # must be 'stable' to release into candidate/stable channels
@@ -39,13 +38,6 @@ parts:
       for snap in "gnome-42-2204" "gnome-42-2204-sdk" "core22"; do
       cd "/snap/$snap/current" && find . -type f,l -exec rm -f "$SNAPCRAFT_PRIME/{}" \;
       done
-
-slots:
-  # for GtkApplication registration
-  paper:
-    interface: dbus
-    bus: session
-    name: io.posidon.Paper
 
 apps:
   paper:
