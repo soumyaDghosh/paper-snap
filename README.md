@@ -1,4 +1,4 @@
-# <img src="./data/icons/hicolor/scalable/apps/io.posidon.Paper.svg" height="64"/>Paper
+# <img src="io.posidon.Paper.svg" height="64"/>Paper
 
 ## Take notes in Markdown
 
