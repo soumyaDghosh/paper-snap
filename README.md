@@ -9,7 +9,7 @@ Contributions are appreciated!
 
  - Almost WYSIWYG markdown rendering
 
- - Searchable through GNOME search
+ - Searchable through GNOME search(Currently snaps don't support this)
 
  - Highlight and Strikethrough text formatting
 
