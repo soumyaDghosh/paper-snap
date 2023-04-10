@@ -35,10 +35,11 @@ parts:
     plugin: nil
     build-snaps:  # List all content-snaps and base snaps you're using here
       - gnome-42-2204
+      - gtk-common-themes
       - core22
     override-prime: |
       set -eux
-      for snap in "gnome-42-2204" "gnome-42-2204-sdk" "core22"; do
+      for snap in "gnome-42-2204" "gtk-common-themes" "core22"; do
       cd "/snap/$snap/current" && find . -type f,l -exec rm -f "$SNAPCRAFT_PRIME/{}" \;
       done
 
@@ -53,3 +54,6 @@ apps:
     common-id: io.posidon.Paper
     extensions: [gnome]
     desktop: usr/share/applications/io.posidon.Paper.desktop
+    plugs:
+      - home
+      - removable-media
