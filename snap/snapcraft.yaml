@@ -57,3 +57,4 @@ apps:
     plugs:
       - home
       - removable-media
+      - mount-observe
