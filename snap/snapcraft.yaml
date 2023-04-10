@@ -42,11 +42,14 @@ parts:
       cd "/snap/$snap/current" && find . -type f,l -exec rm -f "$SNAPCRAFT_PRIME/{}" \;
       done
 
+plugs:
+  curtail:
+    interface: dbus
+    bus: session
+    name: io.posidon.Paper
 apps:
   paper:
     command: usr/bin/io.posidon.Paper
     common-id: io.posidon.Paper
     extensions: [gnome]
     desktop: usr/share/applications/io.posidon.Paper.desktop
-    plugs:
-      - home
