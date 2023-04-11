@@ -43,8 +43,9 @@ parts:
       cd "/snap/$snap/current" && find . -type f,l -exec rm -f "$SNAPCRAFT_PRIME/{}" \;
       done
 
-plugs:
-  curtail:
+slots:
+  # for GtkApplication registration
+  paper:
     interface: dbus
     bus: session
     name: io.posidon.Paper
