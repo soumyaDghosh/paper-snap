@@ -21,7 +21,7 @@ jobs:
           snapcraft-args: "-v"
       - uses: actions/upload-artifact@v3
         with:
-          name: snap
+          name: paper-snap
           path: ${{ steps.snapcraft-build.outputs.snap }}    
 #      - name: Upload and release Paper Snap
 #        uses: snapcore/action-publish@v1
