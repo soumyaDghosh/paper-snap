@@ -9,6 +9,8 @@ contact: soumyadeepghosh2004@zohomail.in
 architectures:
   # snapcraft builder builds for all archs when building, so, this is necessary to reduce the number of builds
   - build-on: amd64
+  - build-on: arm64
+  - build-on: armhf
 parts:
   paper:
     # See 'snapcraft plugins'
