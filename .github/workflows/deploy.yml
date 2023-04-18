@@ -19,10 +19,10 @@ jobs:
         id: snapcraft-build
         with:
           snapcraft-args: "-v"
-      - name: Upload and release Paper Snap
-        uses: snapcore/action-publish@v1
-        env: 
-          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.STORE_LOGIN }}
-        with:
-          snap: ${{ steps.snapcraft-build.outputs.snap }}
-          release: ${{ startsWith(github.ref, 'refs/tags/') && 'candidate' || 'edge'}}
+#      - name: Upload and release Paper Snap
+#        uses: snapcore/action-publish@v1
+#        env: 
+#          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.STORE_LOGIN }}
+#        with:
+#          snap: ${{ steps.snapcraft-build.outputs.snap }}
+#          release: ${{ startsWith(github.ref, 'refs/tags/') && 'candidate' || 'edge'}}
