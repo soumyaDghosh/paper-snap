@@ -5,6 +5,7 @@ base: core22 # the base snap is the execution environment for this snap
 grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict # use 'strict' once you have the right plugs and slots
 compression: lzo
+icon: io.posidon.Paper.svg
 contact: soumyadeepghosh2004@zohomail.in
 architectures:
   # snapcraft builder builds for all archs when building, so, this is necessary to reduce the number of builds
@@ -29,8 +30,6 @@ parts:
       sed "s|labelled-by: icon;|labelled_by: icon;|" -i src/ui/window/notebooks_bar/icon.blp
       sed 's|labelled-by: label;|labelled_by: label;|' -i src/ui/window/sidebar/note_card.blp
       sed 's|described-by: descrption_box;|described_by: descrption_box;|' -i src/ui/window/sidebar/note_card.blp
-      sed 's|Icon=@app_id@|Icon=usr/share/icons/hicolor/scalable/apps/io.posidon.Paper.svg|' -i data/app.desktop.in
-      sed 's|Icon=@app_id@|Icon=usr/share/icons/hicolor/scalable/apps/io.posidon.Paper.svg|' -i data/editor.desktop.in
   cleanup:
     after:  # Make this part run last; list all your other parts here
       - paper
