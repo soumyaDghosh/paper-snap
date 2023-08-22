@@ -1,5 +1,4 @@
-name: paper # you probably want to 'snapcraft register <name>'
-version: '22.11'
+name: paper
 adopt-info: paper
 base: core22 # the base snap is the execution environment for this snap
 grade: stable # must be 'stable' to release into candidate/stable channels
@@ -17,7 +16,8 @@ parts:
     # See 'snapcraft plugins'
     plugin: meson
     source: https://gitlab.com/posidon_software/paper.git
-    source-tag: $SNAPCRAFT_PROJECT_VERSION
+    source-tag: '22.11'
+    source-depth: 1
     meson-parameters:
       - --prefix=/usr
     parse-info: [usr/share/metainfo/io.posidon.Paper.appdata.xml]
