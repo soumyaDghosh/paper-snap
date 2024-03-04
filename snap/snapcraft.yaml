@@ -21,7 +21,10 @@ parts:
       - --prefix=/usr
     parse-info: [usr/share/metainfo/io.posidon.Paper.appdata.xml]
     build-snaps:
-      - blueprint-compiler 
+      - blueprint-compiler
+    override-pull: |
+      craftctl default
+      sed -i 's#1.2.0#>=1.2.0#g' $CRAFT_PART_SRC/src/meson.build
 
 slots:
   paper:
