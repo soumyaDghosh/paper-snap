@@ -1,19 +1,18 @@
 name: paper
 adopt-info: paper
-base: core22 # the base snap is the execution environment for this snap
-grade: stable # must be 'stable' to release into candidate/stable channels
-confinement: strict # use 'strict' once you have the right plugs and slots
+base: core22
+grade: stable
+confinement: strict
 compression: lzo
-icon: io.posidon.Paper.svg
 contact: soumyadeepghosh2004@zohomail.in
+
 architectures:
-  # snapcraft builder builds for all archs when building, so, this is necessary to reduce the number of builds
   - build-on: amd64
   - build-on: arm64
   - build-on: armhf
+
 parts:
   paper:
-    # See 'snapcraft plugins'
     plugin: meson
     source: https://gitlab.com/posidon_software/paper.git
     source-tag: '22.11'
@@ -21,35 +20,25 @@ parts:
     meson-parameters:
       - --prefix=/usr
     parse-info: [usr/share/metainfo/io.posidon.Paper.appdata.xml]
-    build-packages:
+    build-snaps:
       - blueprint-compiler
     override-pull: |
       craftctl default
-      sed "s/version: '1.2.0'/version: '>=1.2.0'/" -i src/meson.build
-      sed "s|labelled-by: notebook_title;|labelled_by: notebook_title;|" -i src/ui/window/window.blp
-      sed "s|labelled-by: icon;|labelled_by: icon;|" -i src/ui/window/notebooks_bar/icon.blp
-      sed 's|labelled-by: label;|labelled_by: label;|' -i src/ui/window/sidebar/note_card.blp
-      sed 's|described-by: descrption_box;|described_by: descrption_box;|' -i src/ui/window/sidebar/note_card.blp
-  cleanup:
-    after:  # Make this part run last; list all your other parts here
-      - paper
-    plugin: nil
-    build-snaps:  # List all content-snaps and base snaps you're using here
-      - gnome-42-2204
-      - gtk-common-themes
-      - core22
-    override-prime: |
-      set -eux
-      for snap in "gnome-42-2204" "gtk-common-themes" "core22"; do
-      cd "/snap/$snap/current" && find . -type f,l -exec rm -f "$SNAPCRAFT_PRIME/{}" \;
+      patch -p1 < $CRAFT_PROJECT_DIR/paper.patch
+    override-build: |
+      craftctl default
+      mkdir -p $CRAFT_PART_INSTALL/meta/gui
+      cp -r $CRAFT_PART_INSTALL/usr/share/icons $CRAFT_PART_INSTALL/meta/gui/
+      for i in `find $CRAFT_PART_INSTALL/meta/gui/icons -name "*.svg" -o -name "*.png"`; do
+        mv $i "`dirname $i`/snap.$CRAFT_PROJECT_NAME.`basename $i`"
       done
 
 slots:
-  # for GtkApplication registration
   paper:
     interface: dbus
     bus: session
     name: io.posidon.Paper
+
 apps:
   paper:
     command: usr/bin/io.posidon.Paper
@@ -59,4 +48,3 @@ apps:
     plugs:
       - home
       - removable-media
-      - mount-observe
